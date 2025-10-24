@@ -68,8 +68,8 @@ app.get("/", (req: Request, res: Response) => {
   res.redirect("/api-docs");
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+app.listen(Number(port), "0.0.0.0", () => {
+  console.log(`Server is running on port ${port}`);
 });
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
