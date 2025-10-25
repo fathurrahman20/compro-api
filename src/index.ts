@@ -46,6 +46,13 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "unsafe-none");
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  res.setHeader("Permissions-Policy", "interest-cohort=()");
+  next();
+});
+
 // Load file dokumentasi Scalar
 const apiSpec = yaml.load(path.join(__dirname, "../api-docs.yaml"));
 
@@ -72,13 +79,6 @@ app.get("/", (req: Request, res: Response) => {
 
 app.listen(Number(port), "0.0.0.0", () => {
   console.log(`Server is running on port ${port}`);
-});
-
-app.use((req, res, next) => {
-  res.setHeader("Cross-Origin-Opener-Policy", "unsafe-none");
-  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-  res.setHeader("Permissions-Policy", "interest-cohort=()");
-  next();
 });
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
