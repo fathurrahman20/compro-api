@@ -28,8 +28,8 @@ app.use(
   cors({
     origin: allowedOrigins,
     credentials: true,
-    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    // methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    // allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json());
@@ -46,12 +46,12 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  res.setHeader("Cross-Origin-Opener-Policy", "unsafe-none");
-  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-  res.setHeader("Permissions-Policy", "interest-cohort=()");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Cross-Origin-Opener-Policy", "unsafe-none");
+//   res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+//   res.setHeader("Permissions-Policy", "interest-cohort=()");
+//   next();
+// });
 
 // Load file dokumentasi Scalar
 const apiSpec = yaml.load(path.join(__dirname, "../api-docs.yaml"));
