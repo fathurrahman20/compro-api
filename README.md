@@ -1,21 +1,21 @@
 # 🏢 My Company API
 
-REST API untuk manajemen berita (News) dan autentikasi berbasis JWT HttpOnly Cookie.
+REST API untuk manajemen berita (News) dan autentikasi berbasis JWT Bearer Token.
 Dibangun menggunakan Express, Prisma ORM, PostgreSQL (Neon), dan Zod untuk validation.
 
 ---
 
 ## 🚀 Tech Stack
 
-| Layer         | Teknologi                                |
-| ------------- | ---------------------------------------- |
-| Runtime       | Node.js + npm                            |
-| Backend       | Express.js                               |
-| ORM           | Prisma ORM                               |
-| Database      | PostgreSQL (Neon)                        |
-| Validation    | Zod                                      |
-| Auth          | JWT (access + refresh) — HttpOnly Cookie |
-| Documentation | Scalar API Docs (OpenAPI 3.0)            |
+| Layer         | Teknologi                             |
+| ------------- | ------------------------------------- |
+| Runtime       | Node.js + npm                         |
+| Backend       | Express.js                            |
+| ORM           | Prisma ORM                            |
+| Database      | PostgreSQL (Neon)                     |
+| Validation    | Zod                                   |
+| Auth          | JWT (Access + Refresh) — Bearer Token |
+| Documentation | Scalar API Docs (OpenAPI 3.0)         |
 
 ---
 
@@ -130,16 +130,31 @@ import { prisma } from "@/application/database";
 
 ---
 
-## 🔐 JWT Utils
+## 🔐 Auth Method
 
-`src/utils/jwt.ts`
+Setelah login, backend mengembalikan payload:
 
-- `generateAccessToken(user)`
-- `generateRefreshToken(user)`
-- `verifyAccessToken(token)`
-- `verifyRefreshToken(token)`
+```json
+{
+  "success": true,
+  "message": "Login success",
+  "data": {
+    "id": "uuid",
+    "email": "user@email.com",
+    "name": "User",
+    "accessToken": "xxx",
+    "refreshToken": "yyy"
+  }
+}
+```
 
-Token disimpan dalam **HttpOnly Secure Cookie** → meningkatkan keamanan XSS/CSRF
+Frontend menyimpan token dan mengirimkannya via header:
+
+```
+Authorization: Bearer <accessToken>
+```
+
+Refresh token digunakan untuk refresh ketika access token expired.
 
 ---
 
@@ -160,12 +175,11 @@ Middleware validasi request otomatis return error yang terstruktur ✅
 
 ### ✅ Auth Endpoints
 
-| Endpoint        | Method | Auth      | Deskripsi              |
-| --------------- | ------ | --------- | ---------------------- |
-| `/auth/login`   | POST   | ❌        | Login → set cookie JWT |
-| `/auth/me`      | GET    | ✅ Cookie | Get current user       |
-| `/auth/refresh` | GET    | ✅ Cookie | Refresh access token   |
-| `/auth/logout`  | DELETE | ✅ Cookie | Remove session cookie  |
+| Endpoint        | Method | Auth      | Deskripsi                 |
+| --------------- | ------ | --------- | ------------------------- |
+| `/auth/login`   | POST   | ❌        | Login (return JWT tokens) |
+| `/auth/me`      | GET    | ✅ Cookie | Get current user          |
+| `/auth/refresh` | GET    | ✅ Cookie | Refresh access token      |
 
 ### 📰 News Endpoints
 

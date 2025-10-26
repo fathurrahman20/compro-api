@@ -18,13 +18,13 @@ export const authService = {
     });
 
     if (!user) {
-      throw new UnauthorizedError("Username atau password salah");
+      throw new UnauthorizedError("Email atau password salah");
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      throw new UnauthorizedError("Username atau password salah");
+      throw new UnauthorizedError("Email atau password salah");
     }
 
     const accessToken = generateAccessToken({
