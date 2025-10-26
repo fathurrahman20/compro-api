@@ -1,19 +1,21 @@
-import { Request, Response, NextFunction } from "express";
-import { verifyAccessToken, verifyRefreshToken } from "../utils/jwt";
+import { NextFunction, Request, Response } from "express";
 import ForbiddenError from "../errors/forbidden.error";
 import UnauthorizedError from "../errors/unauthorized.error";
+import { verifyAccessToken } from "../utils/jwt";
 
 export const authenticate = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const accessToken = req.cookies.accessToken;
-  const refreshToken = req.cookies.refreshToken;
+  const authHeader = req.headers.authorization;
+  const accessToken = authHeader && authHeader.split(" ")[1];
 
-  const decoded = accessToken
-    ? verifyAccessToken(accessToken)
-    : verifyRefreshToken(refreshToken);
+  if (!accessToken) {
+    throw new UnauthorizedError("Token tidak ditemukan. Silakan login.");
+  }
+
+  const decoded = verifyAccessToken(accessToken);
   if (!decoded || typeof decoded === "string") {
     throw new UnauthorizedError("Token tidak valid. Silakan login kembali.");
   }

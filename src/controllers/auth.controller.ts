@@ -10,15 +10,6 @@ export const login = async (req: Request, res: Response) => {
     validatedData
   );
 
-  res.cookie("accessToken", accessToken, {
-    httpOnly: true,
-    maxAge: 15 * 60 * 1000,
-  });
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
-
   res.status(200).json({
     success: true,
     message: "Successfully logged in",
@@ -26,6 +17,8 @@ export const login = async (req: Request, res: Response) => {
       id: user.id,
       name: user.name,
       email: user.email,
+      accessToken,
+      refreshToken,
     },
   });
 };
@@ -53,23 +46,11 @@ export const refreshToken = async (req: Request, res: Response) => {
   const refreshToken = req.cookies.refreshToken;
   const { newAccessToken } = await authService.refreshToken(refreshToken);
 
-  res.cookie("accessToken", newAccessToken, {
-    httpOnly: true,
-    maxAge: 15 * 60 * 1000,
-  });
-
   res.status(200).json({
     success: true,
     message: "Successfully create a new access token",
-  });
-};
-
-export const logout = async (req: Request, res: Response) => {
-  res.clearCookie("accessToken");
-  res.clearCookie("refreshToken");
-
-  res.status(200).json({
-    success: true,
-    message: "Successfully logout",
+    data: {
+      accessToken: newAccessToken,
+    },
   });
 };
