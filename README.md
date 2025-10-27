@@ -178,18 +178,18 @@ Middleware validasi request otomatis return error yang terstruktur ✅
 | Endpoint        | Method | Auth      | Deskripsi                 |
 | --------------- | ------ | --------- | ------------------------- |
 | `/auth/login`   | POST   | ❌        | Login (return JWT tokens) |
-| `/auth/me`      | GET    | ✅ Cookie | Get current user          |
-| `/auth/refresh` | GET    | ✅ Cookie | Refresh access token      |
+| `/auth/me`      | GET    | ✅ Bearer | Get current user          |
+| `/auth/refresh` | GET    | ✅ Bearer | Refresh access token      |
 
 ### 📰 News Endpoints
 
-| Endpoint    | Method | Auth      | Deskripsi                       |
-| ----------- | ------ | --------- | ------------------------------- |
-| `/news`     | GET    | ❌        | List dengan search + pagination |
-| `/news`     | POST   | ✅ Cookie | Create news                     |
-| `/news/:id` | GET    | ❌        | Get detail news                 |
-| `/news/:id` | PATCH  | ✅ Cookie | Update news                     |
-| `/news/:id` | DELETE | ✅ Cookie | Delete news                     |
+| Endpoint          | Method | Auth      | Deskripsi                       |
+| ----------- ----- | ------ | --------- | ------------------------------- |
+| `/news`           | GET    | ❌        | List dengan search + pagination |
+| `/news`           | POST   | ✅ Bearer | Create news                     |
+| `/news/:identity` | GET    | ❌        | Get detail news by id or slug   |
+| `/news/:id`       | PATCH  | ✅ Bearer | Update news                     |
+| `/news/:id`       | DELETE | ✅ Bearer | Delete news                     |
 
 Search & pagination support:
 
@@ -211,6 +211,17 @@ Production:
 
 ```
 https://compro-api.onrender.com/api-docs
+```
+
+---
+
+### Test User Credentials ✅
+
+Untuk keperluan testing:
+
+```
+email: redaksi@mycompany.com
+password: password123
 ```
 
 ---
