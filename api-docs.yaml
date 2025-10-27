@@ -218,6 +218,12 @@ paths:
                                   type: string
                                 email:
                                   type: string
+                            createdAt:
+                              type: string
+                              format: date-time
+                            updatedAt:
+                              type: string
+                              format: date-time
                       totalNews:
                         type: integer
                       totalPages:
@@ -292,17 +298,16 @@ paths:
           description: Unauthorized
         "500":
           description: Internal Server Error
-  /news/{id}:
+  /news/{identity}:
     get:
-      summary: Get a news item by ID
+      summary: Get a news item by ID or slug
       tags: [News]
       parameters:
-        - name: id
+        - name: identity
           in: path
           required: true
           schema:
             type: string
-            format: uuid
       responses:
         "200":
           description: News found
@@ -328,19 +333,24 @@ paths:
                         type: string
                       content:
                         type: string
-                      author:
-                        type: string
                       published:
                         type: boolean
+                      author:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                          name:
+                            type: string
+                          email:
+                            type: string
                       createdAt:
                         type: string
                         format: date-time
                       updatedAt:
                         type: string
                         format: date-time
-                      authorId:
-                        type: string
-                        format: uuid
         "404":
           description: News not found
         "500":

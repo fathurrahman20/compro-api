@@ -4,13 +4,13 @@ import {
   createNews,
   deleteNews,
   getAllNews,
-  getNewsById,
+  getNewsByIdentity,
   updateNews,
 } from "../controllers/news.controller";
 
 const newsRoutes = Router();
 newsRoutes.get("/news", getAllNews);
-newsRoutes.get("/news/:id", getNewsById);
+newsRoutes.get("/news/:identity", getNewsByIdentity);
 newsRoutes.post("/news", authenticate, createNews);
 newsRoutes.patch("/news/:id", authenticate, updateNews);
 newsRoutes.delete("/news/:id", authenticate, deleteNews);

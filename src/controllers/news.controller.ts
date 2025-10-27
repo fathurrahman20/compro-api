@@ -26,9 +26,9 @@ export const getAllNews = async (req: Request, res: Response) => {
   });
 };
 
-export const getNewsById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const newsResponse = await newsServices.getNewsById(id);
+export const getNewsByIdentity = async (req: Request, res: Response) => {
+  const { identity } = req.params;
+  const newsResponse = await newsServices.getNewsById(identity);
 
   res.status(200).json({
     success: true,

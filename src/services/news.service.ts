@@ -47,9 +47,13 @@ export const newsServices = {
     return response;
   },
 
-  async getNewsById(id: string) {
-    const news = await prisma.news.findUnique({
-      where: { id },
+  async getNewsById(identity: string) {
+    const news = await prisma.news.findFirst({
+      where: {
+        OR: [{ id: identity }, { slug: identity }],
+      },
+      include: { author: { select: { id: true, name: true, email: true } } },
+      omit: { authorId: true },
     });
 
     if (!news) {
