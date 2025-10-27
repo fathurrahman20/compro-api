@@ -9,6 +9,6 @@ import { authenticate } from "../middleware/auth.middleware";
 const authRoutes = Router();
 authRoutes.post("/auth/login", login);
 authRoutes.get("/auth/me", authenticate, getCurrentUser);
-authRoutes.get("/auth/refresh", authenticate, refreshToken);
+authRoutes.post("/auth/refresh", refreshToken);
 
 export default authRoutes;

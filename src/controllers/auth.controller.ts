@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { loginSchema } from "../schema/auth.schema";
 import { authService } from "../services/auth.service";
 import NotFoundError from "../errors/not-found.error";
+import UnauthorizedError from "../errors/unauthorized.error";
 
 export const login = async (req: Request, res: Response) => {
   const validatedData = loginSchema.parse(req.body);
@@ -43,7 +44,13 @@ export const getCurrentUser = async (req: Request, res: Response) => {
 };
 
 export const refreshToken = async (req: Request, res: Response) => {
-  const refreshToken = req.cookies.refreshToken;
+  const authHeader = req.headers.authorization;
+  const refreshToken = authHeader?.split(" ")[1];
+
+  if (!refreshToken) {
+    throw new UnauthorizedError("Refresh token is required");
+  }
+
   const { newAccessToken } = await authService.refreshToken(refreshToken);
 
   res.status(200).json({

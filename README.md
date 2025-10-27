@@ -179,12 +179,12 @@ Middleware validasi request otomatis return error yang terstruktur ✅
 | --------------- | ------ | --------- | ------------------------- |
 | `/auth/login`   | POST   | ❌        | Login (return JWT tokens) |
 | `/auth/me`      | GET    | ✅ Bearer | Get current user          |
-| `/auth/refresh` | GET    | ✅ Bearer | Refresh access token      |
+| `/auth/refresh` | POST   | ✅ Bearer | Refresh access token      |
 
 ### 📰 News Endpoints
 
 | Endpoint          | Method | Auth      | Deskripsi                       |
-| ----------- ----- | ------ | --------- | ------------------------------- |
+| ----------------- | ------ | --------- | ------------------------------- |
 | `/news`           | GET    | ❌        | List dengan search + pagination |
 | `/news`           | POST   | ✅ Bearer | Create news                     |
 | `/news/:identity` | GET    | ❌        | Get detail news by id or slug   |
